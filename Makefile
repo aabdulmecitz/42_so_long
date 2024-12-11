@@ -68,8 +68,10 @@ push:
 re:				fclean all
 
 re_bonus:	fclean bonus
+
 compile_libs:
 	@make -sC lib/libft
+	@make bonus -sC lib/libft
 	@make -sC lib/minilibx-linux
 	@make clean -sC lib/libft
 
