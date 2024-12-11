@@ -6,7 +6,7 @@
 /*   By: aozkaya <aozkaya@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 02:15:50 by aabdulmecit       #+#    #+#             */
-/*   Updated: 2024/12/04 02:21:33 by aozkaya          ###   ########.fr       */
+/*   Updated: 2024/12/11 19:34:35 by aozkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void	ft_init_game(t_game *game)
     game->map.players = 0;
     game->movements = 0;
     game->enemy_k_num = 0;
-    game->enemy_x_num = 0;
-    game->enemy_x = NULL;
     game->enemy_k = NULL;
     game->map.columns = ft_strlen(game->map.full[0]) - 1;
     while (game->map.full[game->map.rows])

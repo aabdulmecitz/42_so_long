@@ -6,7 +6,7 @@
 /*   By: aozkaya <aozkaya@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 02:42:34 by aozkaya           #+#    #+#             */
-/*   Updated: 2024/12/04 06:43:11 by aozkaya          ###   ########.fr       */
+/*   Updated: 2024/12/11 19:06:09 by aozkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,9 @@
 
 void ft_enemy_movement(t_game *game, t_enemy *enemy)
 {
-    int new_x;
-    int new_y;
-
-    new_x = enemy->pos.x;
-    new_y = enemy->pos.y;
-    if (enemy->type == ENEMY_FIXED)
-        return;
+    return;
+    int new_x = enemy->pos.x;
+    int new_y = enemy->pos.y;
     if (enemy->dir == BACK)
         new_y--;
     else if (enemy->dir == FRONT)
@@ -29,8 +25,6 @@ void ft_enemy_movement(t_game *game, t_enemy *enemy)
         new_x++;
     else if (enemy->dir == LEFT)
         new_x--;
-    printf("Enemy moving from (%d, %d) to (%d, %d)\n", enemy->pos.x, enemy->pos.y, new_x, new_y);  // Debug log
-
 
     if (is_valid_position(game, new_x, new_y))
     {
@@ -42,14 +36,17 @@ void ft_enemy_movement(t_game *game, t_enemy *enemy)
     else
     {
         enemy->dir = rand() % 4;
-        if (enemy->dir == 0)
-            enemy->dir = BACK;
-        else if (enemy->dir == 1)
-            enemy->dir = FRONT;
-        else if (enemy->dir == 2)
-            enemy->dir = LEFT;
-        else
-            enemy->dir = RIGHT;
+    }
+}
+
+
+void update_enemy_list(t_game *game, t_enemy_list *list)
+{
+    t_enemy_node *current = list->head;
+    while (current && current->next)
+    {
+        ft_enemy_movement(game, &current->enemy);
+        current = current->next;
     }
 }
 
@@ -64,15 +61,28 @@ int is_valid_position(t_game *game, int x, int y)
     return 1;
 }
 
-void ft_update_enemies(t_game *game)
+void load_wandering_enemies(t_game *game, t_enemy_list *list) 
 {
-    int i;
-
-    i = 0;
-    while (i < game->enemy_x_num)
+    int y = 0;
+    int x;
+    while (y < game->map.rows)
     {
-        ft_enemy_movement(game, &game->enemy_x[i]);
-        i++;
+        x = 0;
+        while (x < game->map.columns) 
+        {
+            return;
+            if (game->map.full[y][x] == WANDER_ENEMY) 
+            {
+                t_enemy enemy;
+                enemy.pos.x = x;
+                enemy.pos.y = y;
+                enemy.type = ENEMY_WANDERING;
+                enemy.dir = rand() % 4;
+                add_enemy(list, enemy);
+            }
+            x++;
+        }
+        y++;
     }
 }
 

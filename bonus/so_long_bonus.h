@@ -6,7 +6,7 @@
 /*   By: aozkaya <aozkaya@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:16:28 by aozkaya           #+#    #+#             */
-/*   Updated: 2024/12/04 05:47:50 by aozkaya          ###   ########.fr       */
+/*   Updated: 2024/12/11 19:26:07 by aozkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,19 @@ typedef struct s_enemy
     t_direction dir;
 } t_enemy;
 
+typedef struct s_enemy_node
+{
+    t_enemy enemy;
+    struct s_enemy_node *next;
+} t_enemy_node;
+
+typedef struct s_enemy_list
+{
+    t_enemy_node *head;
+    int count;
+} t_enemy_list;
+
+
 typedef struct s_game
 {
 	void		*mlx_ptr;
@@ -132,8 +145,8 @@ typedef struct s_game
 	t_direction	player_direction;
 	t_enemy		*enemy_k;
 	int			enemy_k_num;
-    t_enemy		*enemy_x;
 	int			enemy_x_num;
+	t_enemy_node *w_enemys;
 	t_map		map;
 	t_bool		map_alloc;
 	t_image		undefined_image;
@@ -149,37 +162,27 @@ typedef struct s_game
 }	t_game;
 
 
+void	add_enemy(t_enemy_list *list, t_enemy enemy);
 void    ft_check_command_line_args(int argc, char const *argv[], t_game *game);
 void    ft_check_map(t_game *game);
-void    ft_check_for_empty_line(char *map, t_game *game);
-void    ft_error_msg(char *msg, t_game *game);
+int		is_valid_position(t_game *game, int x, int y);
+void    ft_enemies(t_game *game, t_enemy_list *wandering_enemies);
+void	check_as_a_hero(t_game *game);
 void	ft_init_game(t_game *game);
 void	ft_init_map(t_game *game, char *argv);
-void	ft_free_all_allocated_memory(t_game *game);
+int		ft_destroy_window(t_game *game, t_enemy_list *list);
+void    ft_error_msg(char *msg, t_game *game);
+void    ft_congrats_message();
+void    ft_failed_msg();
+int		ft_render_frame(t_game *game, t_enemy_list *list);
 void	ft_free_map(t_game *game);
 void	ft_free_just_map(t_map *map);
-void    check_as_a_hero(t_game *game);
-int		key_hook(int keycode, t_game *game);
-int 	ft_check_all_collectables(t_map *map, t_game *game);
-void    ft_handle_buttons(t_game *game);
-int 	ft_destroy_window(t_game *game);
-void    ft_congrats_message();
-int		ft_render_frame(t_game *game);
-int 	ft_update_frame(t_game *game);
-void    ft_paint_texture(t_game *game, int x, int y);
-void 	ft_check_collision_fixed_enemy(t_game *game);
-void 	ft_check_collision_wandering_enemy(t_game *game);
-void 	ft_move_enemy_x(t_game *game);
-void    ft_failed_msg();
-void    ft_init_enemy(t_game *game);
-void 	handle_enemy(t_game *game, int x, int y);
-void 	ft_allocate_enemy_memory(t_game *game);
-void 	ft_load_sprite(t_image *sprite, void *mlx, char *path, t_game *game);
-void    ft_enemies(t_game *game);
-void    ft_enemy_movement(t_game *game, t_enemy *enemy);
-int		is_valid_position(t_game *game, int x, int y);
-void	ft_update_enemies(t_game *game);
-
+void	load_wandering_enemies(t_game *game, t_enemy_list *list);
+void	ft_free_all_allocated_memory(t_game *game, t_enemy_list *wandering_enemies);
+void	ft_handle_buttons(t_game *game, t_enemy_list *list);
+void	free_enemy_list(t_enemy_list *list);
+t_enemy_list *init_enemy_list(t_game *game);
+void	update_enemy_list(t_game *game, t_enemy_list *list);
 
 
 void ft_print_map_full(t_game *game);

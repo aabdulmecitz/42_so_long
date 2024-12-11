@@ -6,7 +6,7 @@
 /*   By: aozkaya <aozkaya@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 02:11:01 by aabdulmecit       #+#    #+#             */
-/*   Updated: 2024/12/04 02:17:46 by aozkaya          ###   ########.fr       */
+/*   Updated: 2024/12/05 20:17:55 by aozkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	ft_destroy_images(t_game *game);
 
-void	ft_free_all_allocated_memory(t_game *game)
+void	ft_free_all_allocated_memory(t_game *game, t_enemy_list *wandering_enemies)
 {
 	if (!game)
 		return;
@@ -29,8 +29,7 @@ void	ft_free_all_allocated_memory(t_game *game)
 	}
     if (game->enemy_k)
         free(game->enemy_k);
-    if (game->enemy_x)
-        free(game->enemy_x);
+    free_enemy_list(wandering_enemies);
 	free(game);
 }
 
@@ -61,7 +60,6 @@ static void ft_destroy_images(t_game *game)
     }
 }
 
-
 void	ft_free_map(t_game *game)
 {
 	int	i;
@@ -88,12 +86,12 @@ void	ft_free_just_map(t_map *map)
     free(map);
 }
 
-int ft_destroy_window(t_game *game)
+int ft_destroy_window(t_game *game, t_enemy_list *list)
 {	
 	if (!game)
 	{
-		ft_free_all_allocated_memory(game);
-
+		ft_free_all_allocated_memory(game, list);
+        free_enemy_list(list);
 	}
 	
     exit(0);

@@ -61,6 +61,9 @@
     "libft.h": "c",
     "type_traits": "c",
     "so_long_bonus.h": "c",
-    "mlx.h": "c"
+    "mlx.h": "c",
+    "mlx_int.h": "c",
+    "unistd.h": "c",
+    "keysym.h": "c"
   }
 }

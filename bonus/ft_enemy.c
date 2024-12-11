@@ -6,78 +6,56 @@
 /*   By: aozkaya <aozkaya@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 17:59:37 by aabdulmecit       #+#    #+#             */
-/*   Updated: 2024/12/04 05:30:32 by aozkaya          ###   ########.fr       */
+/*   Updated: 2024/12/11 19:33:26 by aozkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long_bonus.h"
 
-void    ft_enemies(t_game *game)
+t_enemy_list *init_enemy_list(t_game *game)
 {
-    ft_allocate_enemy_memory(game);
-    ft_init_enemy(game); 
+    t_enemy_list *list = malloc(sizeof(t_enemy_list));
+    if (!list)
+    {
+		ft_error_msg("Memory wandering enemies failed for game", game);
+        exit(EXIT_FAILURE);
+    }
+    list->head = NULL;
+    list->count = 0;
+    return list;
 }
 
-void ft_init_enemy(t_game *game)
+void add_enemy(t_enemy_list *list, t_enemy enemy)
 {
-    int x;
-    int y;
-
-    y = 0;
-    while (y < game->map.rows)
+    t_enemy_node *new_node = malloc(sizeof(t_enemy_node));
+    t_enemy_node *current;
+    if (!new_node)
     {
-        x = 0;
-        while (x < game->map.columns)
-        {
-            handle_enemy(game, x, y);
-            x++;
-        }
-        y++;
+        perror("Failed to allocate memory for enemy node");
+        exit(EXIT_FAILURE);
     }
+    if (!list->head)
+        list->head = new_node;
+    else
+    {
+        current = list->head;
+        while (current->next)
+            current = current->next;
+        current->next = new_node;
+    }
+    list->count++;
 }
-
-void handle_enemy(t_game *game, int x, int y)
+void free_enemy_list(t_enemy_list *list)
 {
-    if (game->map.full[y][x] == STAT_ENEMY)
+    t_enemy_node *current = list->head;
+    t_enemy_node *next;
+
+    while (current)
     {
-        if (game->enemy_k_num > 0)
-        {
-            game->enemy_k[game->enemy_k_num - 1].pos.x = x;
-            game->enemy_k[game->enemy_k_num - 1].pos.y = y;
-            game->enemy_k[game->enemy_k_num - 1].type = ENEMY_FIXED;
-            game->enemy_k[game->enemy_k_num - 1].dir = rand() % 4; // Başlangıç yönünü rastgele ayarlayalım
-            ft_load_sprite(&game->enemy_k[game->enemy_k_num - 1].sprite, game->mlx_ptr, STAT_ENEMY_XPM, game);
-            game->enemy_k_num--;
-        }
+        next = current->next;
+        free(current);
+        current = next;
     }
-    else if (game->map.full[y][x] == WANDER_ENEMY)
-    {
-        if (game->enemy_x_num > 0)
-        {
-            game->enemy_x[game->enemy_x_num - 1].pos.x = x;
-            game->enemy_x[game->enemy_x_num - 1].pos.y = y;
-            game->enemy_x[game->enemy_x_num - 1].type = ENEMY_WANDERING;
-            game->enemy_x[game->enemy_x_num - 1].dir = rand() % 4; // Başlangıç yönünü rastgele ayarlayalım
-            ft_load_sprite(&game->enemy_x[game->enemy_x_num - 1].sprite, game->mlx_ptr, WANDER_ENEMY_XPM, game);
-            game->enemy_x_num--;
-        }
-    }
+    list->head = NULL;
+    list->count = 0;
 }
-
-
-void ft_allocate_enemy_memory(t_game *game)
-{
-    if (game->enemy_k_num > 0)
-    {
-        game->enemy_k = malloc(game->enemy_k_num * sizeof(t_enemy));
-        if (!game->enemy_k)
-            ft_error_msg("Failed to allocate memory for stationary enemies.", game);
-    }
-    if (game->enemy_x_num > 0)
-    {
-        game->enemy_x = malloc(game->enemy_x_num * sizeof(t_enemy));
-        if (!game->enemy_x)
-            ft_error_msg("Failed to allocate memory for wandering enemies.", game);
-    }
-}
-

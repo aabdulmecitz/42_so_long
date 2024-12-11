@@ -1,0 +1,39 @@
+rm -f so_long so_long_bonus
+so_long: [0;31mso_long and so_long_bonus were deleted[0m
+
+cc ./bonus/ft_check_command_line_args.c ./bonus/ft_enemy.c ./bonus/ft_msg.c ./bonus/ft_init_game.c ./bonus/ft_enemy_movement.c ./bonus/ft_check_map.c ./bonus/ft_init_map.c ./bonus/so_long_bonus.c ./bonus/ft_mem_free.c ./bonus/ft_render_frame.c ./bonus/ft_flood_fill.c ./bonus/ft_handle_buttons.c lib/libft/libft.a -L./lib/minilibx-linux ./lib/minilibx-linux/libmlx.a -lXext -lX11 -g3 -o so_long_bonus
+so_long_bonus: [0;32mso_long_bonus was compiled.[0m
+
+./so_long_bonus assets/maps/valid/bonus/map5.ber 
+[1;96mLoading sprite from path: assets/sprites/dungeonwall.xpm
+[0m[1;96mLoading sprite from path: assets/sprites/floor.xpm
+[0m[1;96mLoading sprite from path: assets/sprites/coin/coin1.xpm
+[0m[1;96mLoading sprite from path: assets/sprites/player/front/player17.xpm
+[0m[1;96mLoading sprite from path: assets/sprites/player/left/player9.xpm
+[0m[1;96mLoading sprite from path: assets/sprites/player/right/player1.xpm
+[0m[1;96mLoading sprite from path: assets/sprites/player/back/player25.xpm
+[0m[1;96mLoading sprite from path: assets/sprites/opened_door.xpm
+[0m[1;96mLoading sprite from path: assets/sprites/dungeon_door.xpm
+[0m[0;32mGame initialization successful!
+[0m[0;32mMap is rectangular!
+[0m[1;96m|1111111111111111111111111111111111| size: 34|
+[0m[1;96m|1P100001C000X000010CK0100001000C01| size: 34|
+[0m[1;96m|1C00010111111001010000111011000011| size: 34|
+[0m[1;96m|10111101K0001001C1C00C001110001001| size: 34|
+[0m[1;96m|100001010000110001110110001C011001| size: 34|
+[0m[1;96m|1C111100010000C0010C0100001111C001| size: 34|
+[0m[1;96m|101000010111111111000100100C100011| size: 34|
+[0m[1;96m|10111C010000000001000101100X101001| size: 34|
+[0m[1;96m|1010CC01111111110110110100111010C1| size: 34|
+[0m[1;96m|1C10100000000001001010010010001111| size: 34|
+[0m[1;96m|1011111100010K0100101011E010000001| size: 34|
+[0m[1;96m|1000C00111110101000010C11111110101| size: 34|
+[0m[1;96m|1C0010010C01C101011111111C0000C001| size: 34|
+[0m[1;96m|11111001100101011100C0K00001001001| size: 34|
+[0m[1;96m|1K0C0000C00X0100000110001001001CC1| size: 34|
+[0m[1;96m|1111111111111111111111111111111111| size: 34|
+[0mrows 16, columns 34
+[0;32mMap validation passed!
+[0m[0;32mPassed from flood fill
+[0mEnemy K Count: 5
+player's x = 1, player's y = 1

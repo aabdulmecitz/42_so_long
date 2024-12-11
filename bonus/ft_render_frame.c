@@ -6,7 +6,7 @@
 /*   By: aozkaya <aozkaya@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 05:38:38 by aabdulmecit       #+#    #+#             */
-/*   Updated: 2024/12/04 05:34:53 by aozkaya          ###   ########.fr       */
+/*   Updated: 2024/12/07 18:43:20 by aozkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 void    ft_paint_texture(t_game *game, int x, int y);
 
-int ft_render_frame(t_game *game)
+int ft_render_frame(t_game *game, t_enemy_list *list)
 {
     int x;
     int y;
     y = 0;
+    update_enemy_list(game, list);
+    return 0;
     while (y < game->map.rows)
     {
         x = 0;
@@ -41,7 +43,7 @@ void    ft_paint_texture(t_game *game, int x, int y)
     else if (game->map.full[y][x] == COINS)
         mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->coins.xpm_ptr, x * IMG_WIDTH, y * IMG_HEIGHT);
     else if (game->map.full[y][x] == WANDER_ENEMY)
-        mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->enemy_x->sprite.xpm_ptr, x * IMG_WIDTH, y * IMG_HEIGHT);
+        mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->w_enemys->enemy.sprite.xpm_ptr, x * IMG_WIDTH, y * IMG_HEIGHT);
     else if (game->map.full[y][x] == STAT_ENEMY)
         mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->enemy_k->sprite.xpm_ptr, x * IMG_WIDTH, y * IMG_HEIGHT);
     else if (game->map.full[y][x] == PLAYER)
@@ -63,12 +65,3 @@ void    ft_paint_texture(t_game *game, int x, int y)
             mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->exit_closed.xpm_ptr, x * IMG_WIDTH, y * IMG_HEIGHT);
     }
 }
-
-// int ft_update_frame(t_game *game)
-// {
-//     ft_move_enemy_x(game);
-//     ft_check_collision_fixed_enemy(game);
-//     ft_check_collision_wandering_enemy(game);
-//     ft_render_frame(game);
-//     return (0);
-// }
